@@ -1,1 +1,8 @@
-/* This is where we will include our stylesheets */
+h1 {
+    text-align: center;
+  }
+  nav {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
