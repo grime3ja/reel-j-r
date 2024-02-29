@@ -1,8 +1,12 @@
 h1 {
     text-align: center;
   }
-  nav {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-  }
+nav {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+img {
+  width: 200px;
+  height: 200px;
+}
