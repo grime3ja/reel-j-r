@@ -1,3 +1,16 @@
+body {
+  display: grid;
+  grid-template-columns: 50px 50px 50px 50px;
+  grid-template-rows: auto;
+  grid-template-areas: 
+    "header header header header"
+    "nav nav nav nav"
+    "article article article aside"
+    "article article article aside"
+    "article article article aside"
+    "footer footer footer footer";
+}
+
 h1 {
     text-align: center;
   }
