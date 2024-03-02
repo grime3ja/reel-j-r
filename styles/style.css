@@ -1,23 +1,28 @@
-body {
+.header { grid-area: header; }
+.nav { grid-area: nav; }
+.article { grid-area: article; }
+.aside { grid-area: aside; }
+.footer { grid-area: footer; }
+
+.body {
   display: grid;
-  grid-template-columns: 50px 50px 50px 50px;
-  grid-template-rows: auto;
+  gap: 50px;
+  grid-template-rows: auto auto auto auto auto;
   grid-template-areas: 
-    "header header header header"
-    "nav nav nav nav"
-    "article article article aside"
-    "article article article aside"
-    "article article article aside"
-    "footer footer footer footer";
+    "header header header header header"
+    "nav nav nav nav nav"
+    "article article article article aside"
+    "footer footer footer footer footer";
 }
 
-h1 {
-    text-align: center;
-  }
-nav {
+.nav {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+  gap: 10px;
+  justify-content: center;
+}
+.header {
+  text-align: center;
+  border-bottom: 5px solid black;
 }
 img {
   width: 200px;
