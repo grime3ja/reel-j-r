@@ -18,4 +18,8 @@ function light() {
     element.classList.remove("black");
 }
 
+function search() {
+    //placeholder for search button functionality.
+}
+
 OS();
