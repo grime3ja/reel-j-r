@@ -23,22 +23,26 @@ function search() {
 }
 
 async function changeGif(searchTerm) {
-    let key = "GfikMeEJM8FxK5c55WN20VdX1OiG564a";
-    let limitNumber = 1;
-    let queryString = new URLSearchParams({api_key: key, q: searchTerm, limit: limitNumber, rating: "g", rating: "pg", rating: "pg-13"});
-    const options = {
-        method: "GET",
-        query: queryString,
+    try {
+        let key = "GfikMeEJM8FxK5c55WN20VdX1OiG564a";
+        let limitNumber = 1;
+        let queryString = new URLSearchParams({api_key: key, q: searchTerm, limit: limitNumber, rating: "g", rating: "pg", rating: "pg-13"});
+        const options = {
+            method: "GET",
+            query: queryString,
+        }
+        const url = 'https://corsproxy.io/?' + encodeURIComponent("https://api.giphy.com/v1/gifs/search?" + queryString.toString());
+        let response = await fetch(url, options);
+        let image = (await response.json()).data[0].images.original.url;
+        let output = document.getElementById("figure");
+        let img = document.createElement("img");
+        img.src = image;
+        let div = document.createElement("div");
+        div.appendChild(img);
+        output.appendChild(div);
+    } catch (error) {
+        
     }
-    const url = 'https://corsproxy.io/?' + encodeURIComponent("https://api.giphy.com/v1/gifs/search?" + queryString.toString());
-    let response = await fetch(url, options);
-    let image = (await response.json()).data[0].images.original.url;
-    let output = document.getElementById("figure");
-    let img = document.createElement("img");
-    img.src = image;
-    let div = document.createElement("div");
-    div.appendChild(img);
-    output.appendChild(div);
 }
 
 window.onload = ("load", async() => {
