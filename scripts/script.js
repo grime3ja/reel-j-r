@@ -22,4 +22,19 @@ function search() {
     //placeholder for search button functionality.
 }
 
+window.onload = ("load", async() => {
+    let output = document.querySelector(".footer");
+    const url = 'http://ron-swanson-quotes.herokuapp.com/v2/quotes';
+    const options = {
+        method: 'GET',
+    };
+    try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+        output.textContent = "\"" + result + "\"" + "-Ron Swanson";
+    } catch (error) {
+        console.error(error);
+    }
+});
+
 OS();
