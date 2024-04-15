@@ -48,7 +48,7 @@ async function changeGif(searchTerm) {
 window.onload = ("load", async() => {
     await changeGif("movie");
     let output = document.querySelector(".footer");
-    const url = 'http://ron-swanson-quotes.herokuapp.com/v2/quotes';
+    const url = 'https://ron-swanson-quotes.herokuapp.com/v2/quotes';
     const options = {
         method: 'GET',
     };
