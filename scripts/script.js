@@ -18,8 +18,12 @@ function light() {
     element.classList.remove("black");
 }
 
-function search() {
+function searchPressed() {
     //placeholder for search button functionality.
+    let searchText = document.getElementById('search-bar');
+    let output = document.getElementById('figure');
+    output.innerHTML = "";
+    changeGif(searchText.value);
 }
 
 async function changeGif(searchTerm) {
