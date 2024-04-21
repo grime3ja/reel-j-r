@@ -1,7 +1,7 @@
-header {
+/* header {
   text-align: center;
   border-bottom: 3px solid black;
-}
+} */
 
 h1, h2, h3, h4 {
   font-family: sans-serif;
@@ -29,13 +29,13 @@ p {
     opacity: 0.2;
   }
   
-  .nav {
+  /* .nav {
     display: flex;
     flex-direction: row;
     gap: 10px;
     justify-content: center;
     align-items: center;
-  }
+  } */
 
   article {
     display: flex;
@@ -65,13 +65,13 @@ p {
 }
 /* This should handle small screens */
 @media (max-width: 550px) {
-  nav {
+  /* nav {
     flex-direction: column;
   }
   .nav a {
     display: block;
     text-align: center;
-  }
+  } */
 
   article {
     display: flex;
