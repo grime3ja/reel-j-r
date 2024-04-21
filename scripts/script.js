@@ -24,6 +24,7 @@ function searchPressed() {
     let output = document.getElementById('figure');
     output.innerHTML = "";
     changeGif(searchText.value);
+    getMovieData(searchText.value);
 }
 
 async function changeGif(searchTerm) {
@@ -47,6 +48,33 @@ async function changeGif(searchTerm) {
     } catch (error) {
         
     }
+}
+
+async function getMovieData(searchTerm) {
+    let queryString = new URLSearchParams({ query: searchTerm, page: 1 });
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhN2E1MTNjMjJlOTNlNmUyYTkzMDA5YzJlYTY1NjU5NiIsInN1YiI6IjY1ZGViMGE1YTliOWE0MDE4NjhlNmRhYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.4RERet9PDVIaOuYJUQbaeY_Yy9ycjqy6DizyVIOABnw'
+        }
+    };
+    // let output = document.getElementById('output-1');
+
+    // we could use 'multi' instead of 'movie' if we want both tv and movies
+    let url = 'https://api.themoviedb.org/3/search/movie?' + queryString.toString();
+    console.log(url);
+    let response = await fetch(url, options);
+    let movie = (await response.json()).results[0];
+    console.log(movie);
+
+    let article = document.getElementById("article");
+    let p = document.createElement("p");
+    p.textContent = "Title: " + movie.original_title;
+    article.appendChild(p);
+    p = document.createElement("p");
+    p.textContent = "Description: " + movie.overview;
+    article.appendChild(p);
 }
 
 window.onload = ("load", async() => {
