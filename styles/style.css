@@ -11,6 +11,15 @@ p {
   font-family: serif;
 }
 
+article {
+  padding-left: 5em;
+  padding-right: 5em;
+}
+
+aside {
+  padding-right: 5em;
+}
+
 /* This should handle large screens */
 @media (min-width: 550px) {
 

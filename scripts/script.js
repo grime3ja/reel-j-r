@@ -59,22 +59,45 @@ async function getMovieData(searchTerm) {
             Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhN2E1MTNjMjJlOTNlNmUyYTkzMDA5YzJlYTY1NjU5NiIsInN1YiI6IjY1ZGViMGE1YTliOWE0MDE4NjhlNmRhYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.4RERet9PDVIaOuYJUQbaeY_Yy9ycjqy6DizyVIOABnw'
         }
     };
-    // let output = document.getElementById('output-1');
 
     // we could use 'multi' instead of 'movie' if we want both tv and movies
-    let url = 'https://api.themoviedb.org/3/search/movie?' + queryString.toString();
-    console.log(url);
-    let response = await fetch(url, options);
+    let titleDescriptionURL = 'https://api.themoviedb.org/3/search/movie?' + queryString.toString();
+    let response = await fetch(titleDescriptionURL, options);
     let movie = (await response.json()).results[0];
     console.log(movie);
-
+    let id = movie.id;
+    let whereURL = "https://api.themoviedb.org/3/movie/" + id + "/watch/providers"
+    response = await fetch(whereURL, options);
+    let where = (await response.json()).results["US"].flatrate[0].provider_name;
+    
     let article = document.getElementById("article");
-    let p = document.createElement("p");
-    p.textContent = "Title: " + movie.original_title;
-    article.appendChild(p);
-    p = document.createElement("p");
-    p.textContent = "Description: " + movie.overview;
-    article.appendChild(p);
+    let div = document.getElementById("div");
+    div.innerHTML = "";
+    let title = document.createElement("p");
+    if (movie.media_type === "tv") {
+        title.textContent = "Title: " + movie.name;
+    } else {
+        title.textContent = "Title: " + movie.original_title;
+    }
+    let description = document.createElement("p");
+    description.textContent = "Description: " + movie.overview;
+
+    div.appendChild(title);
+    div.appendChild(description);
+
+    article.appendChild(div);
+
+    let aside = document.getElementById("aside");
+    let div1 = document.getElementById("tmdb");
+    // let p1 = document.createElement("p");
+    // p1.textContent = "test";
+    let p2 = document.createElement("p");
+    p2.textContent = "Where to watch: " + where;
+
+    // div1.appendChild(p1);
+    div1.appendChild(p2);
+
+    aside.appendChild(div1);
 }
 
 window.onload = ("load", async() => {
