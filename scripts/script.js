@@ -23,7 +23,6 @@ function searchPressed() {
     let searchText = document.getElementById('search-bar');
     let output = document.getElementById('figure');
     output.innerHTML = "";
-    changeGif(searchText.value);
     getMovieData(searchText.value);
 }
 
@@ -64,37 +63,47 @@ async function getMovieData(searchTerm) {
     let titleDescriptionURL = 'https://api.themoviedb.org/3/search/movie?' + queryString.toString();
     let response = await fetch(titleDescriptionURL, options);
     let movie = (await response.json()).results[0];
-    console.log(movie);
     let id = movie.id;
-    let whereURL = "https://api.themoviedb.org/3/movie/" + id + "/watch/providers"
+    // gif is changed based off of the move title, thus interaction b/w TMDB and Gif API
+    changeGif(movie.title);
+    
+    let whereURL = "https://api.themoviedb.org/3/movie/" + id + "/watch/providers";
     response = await fetch(whereURL, options);
     let where = (await response.json()).results["US"].flatrate[0].provider_name;
+
+    let actorURL = "https://api.themoviedb.org/3/movie/"+ id +"/credits";
+    response = await fetch(actorURL, options);
+    let actors = (await response.json()).cast;
     
     let article = document.getElementById("article");
     let div = document.getElementById("div");
     div.innerHTML = "";
     let title = document.createElement("p");
-    if (movie.media_type === "tv") {
-        title.textContent = "Title: " + movie.name;
-    } else {
-        title.textContent = "Title: " + movie.original_title;
-    }
+    title.textContent = "Title: " + movie.title;
     let description = document.createElement("p");
     description.textContent = "Description: " + movie.overview;
+    let actor = document.createElement("p");
+    actor.textContent = "Lead Actor: " + actors[0].name;
 
     div.appendChild(title);
     div.appendChild(description);
+    div.appendChild(actor);
 
     article.appendChild(div);
 
     let aside = document.getElementById("aside");
     let div1 = document.getElementById("tmdb");
-    // let p1 = document.createElement("p");
-    // p1.textContent = "test";
+    div1.innerHTML = "";
+    let p1 = document.createElement("p");
+    p1.textContent = "Where to watch: " + where;
     let p2 = document.createElement("p");
-    p2.textContent = "Where to watch: " + where;
+    p2.textContent = "Notable Actors: ";
+    for (let i = 0; i < 4; i++) {
+        p2.textContent += actors[i].name + ", ";
+    }
+    p2.textContent += actors[5].name;
 
-    // div1.appendChild(p1);
+    div1.appendChild(p1);
     div1.appendChild(p2);
 
     aside.appendChild(div1);
