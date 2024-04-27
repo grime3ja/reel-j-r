@@ -22,8 +22,16 @@ function searchPressed() {
     //placeholder for search button functionality.
     let searchText = document.getElementById('search-bar');
     let output = document.getElementById('figure');
-    output.innerHTML = "";
-    getMovieData(searchText.value);
+    if (output) {
+        output.innerHTML = "";
+    } else {
+        location.href = "./index.html";
+    }
+    sessionStorage.setItem("q", searchText.value);
+    const q = sessionStorage.getItem("q");
+    const urlSPObj = new URLSearchParams();
+    urlSPObj.append("search", q);
+    getMovieData(q);
 }
 
 async function changeGif(searchTerm, movieID) {
@@ -109,10 +117,10 @@ async function getMovieData(searchTerm) {
     p1.textContent = "Where to watch: " + where;
     let p2 = document.createElement("p");
     p2.innerHTML = "<strong>Notable Actors: </strong>";
-    // for (let i = 0; i < 4; i++) {
-    //     p2.textContent += actors[i].name + ", ";
-    // }
-    // p2.textContent += actors[5].name;
+    for (let i = 0; i < 4; i++) {
+        p2.textContent += actors[i].name + ", ";
+    }
+    p2.textContent += actors[5].name;
 
     div1.appendChild(p1);
     div1.appendChild(p2);
