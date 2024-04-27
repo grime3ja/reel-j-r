@@ -3,6 +3,22 @@
   border-bottom: 3px solid black;
 } */
 
+.black {
+  color: white;
+  background-color: black;
+  .container-fluid {
+    color: white;
+    background-color: black;
+}
+  #navbard {
+      background-color: black;
+  }
+  .nav-link, .navbar-brand{
+      color: white;
+      background-color: black;
+  }
+}
+
 h1, h2, h3, h4 {
   font-family: sans-serif;
 }
