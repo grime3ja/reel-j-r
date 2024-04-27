@@ -26,7 +26,7 @@ function searchPressed() {
     getMovieData(searchText.value);
 }
 
-async function changeGif(searchTerm) {
+async function changeGif(searchTerm, movieID) {
     try {
         let key = "GfikMeEJM8FxK5c55WN20VdX1OiG564a";
         let limitNumber = 1;
@@ -42,6 +42,17 @@ async function changeGif(searchTerm) {
         let img = document.createElement("img");
         img.src = image;
         let div = document.createElement("div");
+        let caption = document.getElementById("figcap");
+        // caption.textContent = searchTerm;
+        // const result = {
+        //     // "moi"
+        // }
+        // localStorage.getItem('recentSearches');
+        // parse as json.
+        // add an element to the array.
+        // stringify
+        // add back to local storage
+        // localStorage.setItem("")
         div.appendChild(img);
         output.appendChild(div);
     } catch (error) {
@@ -65,7 +76,7 @@ async function getMovieData(searchTerm) {
     let movie = (await response.json()).results[0];
     let id = movie.id;
     // gif is changed based off of the move title, thus interaction b/w TMDB and Gif API
-    changeGif(movie.title);
+    changeGif(movie.title, id);
     
     let whereURL = "https://api.themoviedb.org/3/movie/" + id + "/watch/providers";
     response = await fetch(whereURL, options);
@@ -94,14 +105,14 @@ async function getMovieData(searchTerm) {
     let aside = document.getElementById("aside");
     let div1 = document.getElementById("tmdb");
     div1.innerHTML = "";
-    let p1 = document.createElement("p");
+    let p1 = document.createElement("strong");
     p1.textContent = "Where to watch: " + where;
     let p2 = document.createElement("p");
-    p2.textContent = "Notable Actors: ";
-    for (let i = 0; i < 4; i++) {
-        p2.textContent += actors[i].name + ", ";
-    }
-    p2.textContent += actors[5].name;
+    p2.innerHTML = "<strong>Notable Actors: </strong>";
+    // for (let i = 0; i < 4; i++) {
+    //     p2.textContent += actors[i].name + ", ";
+    // }
+    // p2.textContent += actors[5].name;
 
     div1.appendChild(p1);
     div1.appendChild(p2);
@@ -110,7 +121,7 @@ async function getMovieData(searchTerm) {
 }
 
 window.onload = ("load", async() => {
-    await changeGif("movie");
+    await changeGif("Movie", 0);
     let output = document.querySelector(".footer");
     const url = 'https://ron-swanson-quotes.herokuapp.com/v2/quotes';
     const options = {
