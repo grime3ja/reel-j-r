@@ -1,22 +1,33 @@
 // This is where we will include our javascript
 function OS() {
     var element = document.body;
-    if(window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        element.classList.add("black");
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        dark();
     } else {
-        element.classList.remove("black");
+        light();
     }
+    sessionStorage.setItem("background","os");
 }
 
 function dark() {
+    sessionStorage.setItem("background","dark");
     var element = document.body;
     element.classList.add("black");
+    var nav = document.getElementById("navbard");
+    nav.classList.add("navbar-dark");
+    nav.setAttribute("data-bs-theme","dark");
 }
 
 function light() {
+    sessionStorage.setItem("background","light");
     var element = document.body;
     element.classList.remove("black");
+    var nav = document.getElementById("navbard");
+    nav.classList.remove("navbar-dark");
+    nav.removeAttribute("data-bs-theme");
 }
+
+
 
 function searchPressed() {
     //placeholder for search button functionality.
@@ -40,10 +51,10 @@ async function changeGif(searchTerm, movieID) {
         let image = (await response.json()).data[0].images.original.url;
         let output = document.getElementById("figure");
         let img = document.createElement("img");
+        let caption = document.createElement("figcaption");
         img.src = image;
+        caption.textContent = searchTerm;
         let div = document.createElement("div");
-        let caption = document.getElementById("figcap");
-        // caption.textContent = searchTerm;
         // const result = {
         //     // "moi"
         // }
@@ -53,7 +64,9 @@ async function changeGif(searchTerm, movieID) {
         // stringify
         // add back to local storage
         // localStorage.setItem("")
+
         div.appendChild(img);
+        div.appendChild(caption);
         output.appendChild(div);
     } catch (error) {
         
@@ -89,14 +102,14 @@ async function getMovieData(searchTerm) {
     let article = document.getElementById("article");
     let div = document.getElementById("div");
     div.innerHTML = "";
-    let title = document.createElement("p");
-    title.textContent = "Title: " + movie.title;
+    // let title = document.createElement("p");
+    // title.textContent = "Title: " + movie.title;
     let description = document.createElement("p");
     description.textContent = "Description: " + movie.overview;
     let actor = document.createElement("p");
     actor.textContent = "Lead Actor: " + actors[0].name;
 
-    div.appendChild(title);
+    // div.appendChild(title);
     div.appendChild(description);
     div.appendChild(actor);
 
@@ -121,6 +134,7 @@ async function getMovieData(searchTerm) {
 }
 
 window.onload = ("load", async() => {
+
     await changeGif("Movie", 0);
     let output = document.querySelector(".footer");
     const url = 'https://ron-swanson-quotes.herokuapp.com/v2/quotes';
@@ -134,6 +148,14 @@ window.onload = ("load", async() => {
     } catch (error) {
         console.error(error);
     }
+    switch(sessionStorage.getItem("background")) {
+        case "dark":
+            dark();
+            break;
+        case "light":
+            light();
+            break;
+        default:
+            OS();
+    }
 });
-
-OS();
