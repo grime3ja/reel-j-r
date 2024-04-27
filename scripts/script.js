@@ -36,7 +36,7 @@ function searchPressed() {
     if (output) {
         output.innerHTML = "";
     } else {
-        location.href = "./index.html";
+        location.href = "./index.html?search=" + searchText.value;
     }
     sessionStorage.setItem("q", searchText.value);
     const q = sessionStorage.getItem("q");
@@ -142,8 +142,21 @@ async function getMovieData(searchTerm) {
 }
 
 window.onload = ("load", async() => {
-
-    await changeGif("Movie", 0);
+    const currentURLSearch = window.location.search;
+    if (currentURLSearch.length > 0) {
+        const decoded = new URLSearchParams(currentURLSearch);
+        if (decoded.has("search")) {
+            const items = decoded.getAll("search");
+            sessionStorage.setItem("q", JSON.stringify(items));
+            const q = sessionStorage.getItem("q");
+            const urlSPObj = new URLSearchParams();
+            urlSPObj.append("search", q);
+            getMovieData(q);
+        }
+    }
+    else {
+        await changeGif("Movie", 0);
+    }
     let output = document.querySelector(".footer");
     const url = 'https://ron-swanson-quotes.herokuapp.com/v2/quotes';
     const options = {
@@ -166,4 +179,5 @@ window.onload = ("load", async() => {
         default:
             OS();
     }
+    // sessionStorage.setItem("q", searchText.value);
 });

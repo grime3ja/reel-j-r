@@ -27,15 +27,6 @@ p {
   font-family: serif;
 }
 
-article {
-  padding-left: 5em;
-  padding-right: 50%;
-}
-
-aside {
-  padding-right: 5em;
-}
-
 /* This should handle large screens */
 @media (min-width: 550px) {
 
@@ -86,6 +77,15 @@ aside {
     bottom: 0px;
     width: 100%;
     border-top: 3px solid black;
+  }
+
+  article {
+    padding-left: 5em;
+    padding-right: 50%;
+  }
+  
+  aside {
+    padding-right: 5em;
   }
 }
 /* This should handle small screens */
