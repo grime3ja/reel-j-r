@@ -43,15 +43,18 @@ function searchPressed() {
     getMovieData(q);
 }
 
-function updateRecents(item) {
+async function updateRecents(item) {
     let storage = localStorage.getItem("recentSearches");
     let result = JSON.stringify(item);
     if(storage == null) {
         var recents = [];
+        console.log("First Item");
         recents.push(result);
+        console.log(recents);
         localStorage.setItem("recentSearches", recents);
     }
     else {
+        // JSON.parse()
         console.log("This adds a second one");
         storage.push(result);
         console.log(storage);
@@ -89,9 +92,9 @@ async function changeGif(searchTerm, movieID) {
             "movieName":searchTerm,
             "gif":image
         }
-        console.log(result);
+        // console.log(result);
         if(movieID != 0) {
-            updateRecents(result);
+            await updateRecents(result);
         }
 
         div.appendChild(img);
