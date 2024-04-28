@@ -48,12 +48,12 @@ async function updateRecents(item) {
     let result = JSON.stringify(item);
     if(storage == null) {
         var recents = [];
-        console.log("First Item");
+        // console.log("First Item");
         recents.push(result);
         localStorage.setItem("recentSearches", JSON.stringify(recents));
     }
     else {
-        console.log(storage);
+        // console.log(storage);
         let test = JSON.parse(storage);
         test.push(result);
         localStorage.setItem("recentSearches", JSON.stringify(test));
@@ -93,7 +93,6 @@ async function changeGif(searchTerm, movieID) {
         output.appendChild(div);
     } catch (error) {
         console.log(error);
-        console.log("There was an error");
     }
 }
 
@@ -113,53 +112,71 @@ async function getMovieData(searchTerm) {
     };
 
     // we could use 'multi' instead of 'movie' if we want both tv and movies
-    let titleDescriptionURL = 'https://api.themoviedb.org/3/search/movie?' + queryString.toString();
-    let response = await fetch(titleDescriptionURL, options);
-    let movie = (await response.json()).results[0];
-    let id = movie.id;
-    // gif is changed based off of the move title, thus interaction b/w TMDB and Gif API
-    changeGif(movie.title, id);
-    
-    let whereURL = "https://api.themoviedb.org/3/movie/" + id + "/watch/providers";
-    response = await fetch(whereURL, options);
-    let where = (await response.json()).results["US"].flatrate[0].provider_name;
+    try {
+        let titleDescriptionURL = 'https://api.themoviedb.org/3/search/movie?' + queryString.toString();
+        let response = await fetch(titleDescriptionURL, options);
+        let movie = (await response.json()).results[0];
+        // if (!movie) {
+        //     changeGif("404-Movie Not Found", 0);
+        //     return;
+        // }
+        let id = movie.id;
+        // gif is changed based off of the move title, thus interaction b/w TMDB and Gif API
+        changeGif(movie.title, id);
+        
+        let whereURL = "https://api.themoviedb.org/3/movie/" + id + "/watch/providers";
+        response = await fetch(whereURL, options);
+        let temp = (await response.json()).results["US"];
+        let where;
+        if (temp.flatrate) {
+            where = temp.flatrate[0].provider_name;
+        } else if (temp.rent) {
+            where = temp.rent[0].provider_name;
+        } else if (temp.buy) {
+            where = temp.buy[0].provider_name;
+        }
 
-    let actorURL = "https://api.themoviedb.org/3/movie/"+ id +"/credits";
-    response = await fetch(actorURL, options);
-    let actors = (await response.json()).cast;
-    
-    let article = document.getElementById("article");
-    let div = document.getElementById("div");
-    div.innerHTML = "";
-    // let title = document.createElement("p");
-    // title.textContent = "Title: " + movie.title;
-    let description = document.createElement("p");
-    description.textContent = "Description: " + movie.overview;
-    let actor = document.createElement("p");
-    actor.textContent = "Lead Actor: " + actors[0].name;
+        let actorURL = "https://api.themoviedb.org/3/movie/"+ id +"/credits";
+        response = await fetch(actorURL, options);
+        let actors = (await response.json()).cast;
+        
+        let article = document.getElementById("article");
+        let div = document.getElementById("div");
+        div.innerHTML = "";
+        // let title = document.createElement("p");
+        // title.textContent = "Title: " + movie.title;
+        let description = document.createElement("p");
+        description.textContent = "Description: " + movie.overview;
+        let actor = document.createElement("p");
+        actor.textContent = "Lead Actor: " + actors[0].name;
 
-    // div.appendChild(title);
-    div.appendChild(description);
-    div.appendChild(actor);
+        // div.appendChild(title);
+        div.appendChild(description);
+        div.appendChild(actor);
 
-    article.appendChild(div);
+        article.appendChild(div);
 
-    let aside = document.getElementById("aside");
-    let div1 = document.getElementById("tmdb");
-    div1.innerHTML = "";
-    let p1 = document.createElement("strong");
-    p1.textContent = "Where to watch: " + where;
-    let p2 = document.createElement("p");
-    p2.innerHTML = "<strong>Notable Actors: </strong>";
-    for (let i = 0; i < 4; i++) {
-        p2.textContent += actors[i].name + ", ";
+        let aside = document.getElementById("aside");
+        let div1 = document.getElementById("tmdb");
+        div1.innerHTML = "";
+        let p1 = document.createElement("strong");
+        p1.textContent = "Where to watch: " + where;
+        let p2 = document.createElement("p");
+        p2.innerHTML = "<strong>Notable Actors: </strong>";
+        for (let i = 0; i < 4; i++) {
+            p2.textContent += actors[i].name + ", ";
+        }
+        p2.textContent += actors[5].name;
+
+        div1.appendChild(p1);
+        div1.appendChild(p2);
+
+        aside.appendChild(div1);
+    } catch (error) {
+        changeGif(searchTerm, 0);
+        document.getElementById("div").textContent = "Movie not found, maybe try refining your search more.";
+        document.getElementById("tmdb").textContent = "Or try again and pray it works this time.";
     }
-    p2.textContent += actors[5].name;
-
-    div1.appendChild(p1);
-    div1.appendChild(p2);
-
-    aside.appendChild(div1);
 }
 
 window.onload = ("load", async() => {
