@@ -181,6 +181,7 @@ async function getMovieData(searchTerm) {
 
 window.onload = ("load", async() => {
     const currentURLSearch = window.location.search;
+    let btn = document.getElementById("btn");
     if (currentURLSearch.length > 0) {
         const decoded = new URLSearchParams(currentURLSearch);
         if (decoded.has("search")) {
@@ -190,10 +191,15 @@ window.onload = ("load", async() => {
             const urlSPObj = new URLSearchParams();
             urlSPObj.append("search", q);
             getMovieData(q);
+            btn.style.visibility = "visible";
+            btn.addEventListener("click", () => {
+                console.log("favorite clicked");
+            });
         }
     }
     else {
         await changeGif("Movie", 0);
+        btn.style.visibility = "hidden";
     }
     let output = document.querySelector(".footer");
     const url = 'https://ron-swanson-quotes.herokuapp.com/v2/quotes';
