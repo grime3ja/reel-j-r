@@ -27,8 +27,6 @@ function light() {
     nav.removeAttribute("data-bs-theme");
 }
 
-
-
 function searchPressed() {
     //placeholder for search button functionality.
     let searchText = document.getElementById('search-bar');
@@ -43,6 +41,29 @@ function searchPressed() {
     const urlSPObj = new URLSearchParams();
     urlSPObj.append("search", q);
     getMovieData(q);
+}
+
+function updateRecents(item) {
+    let storage = localStorage.getItem("recentSearches");
+    let result = JSON.stringify(item);
+    if(storage == null) {
+        var recents = [];
+        recents.push(result);
+        localStorage.setItem("recentSearches", recents);
+    }
+    else {
+        console.log("This adds a second one");
+        storage.push(result);
+        console.log(storage);
+    }
+    
+        // localStorage.getItem('recentSearches');
+        // parse as json.
+        // add an element to the array.
+        // stringify
+        // add back to local storage
+        // localStorage.setItem("")
+
 }
 
 async function changeGif(searchTerm, movieID) {
@@ -63,15 +84,15 @@ async function changeGif(searchTerm, movieID) {
         img.src = image;
         caption.textContent = searchTerm;
         let div = document.createElement("div");
-        // const result = {
-        //     // "moi"
-        // }
-        // localStorage.getItem('recentSearches');
-        // parse as json.
-        // add an element to the array.
-        // stringify
-        // add back to local storage
-        // localStorage.setItem("")
+        const result = {
+            "movieid":movieID,
+            "movieName":searchTerm,
+            "gif":image
+        }
+        console.log(result);
+        if(movieID != 0) {
+            updateRecents(result);
+        }
 
         div.appendChild(img);
         div.appendChild(caption);
