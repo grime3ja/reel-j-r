@@ -50,29 +50,17 @@ async function updateRecents(item) {
         var recents = [];
         console.log("First Item");
         recents.push(result);
-        console.log(recents);
-        localStorage.setItem("recentSearches", recents);
+        localStorage.setItem("recentSearches", JSON.stringify(recents));
     }
     else {
-        // console.log(storage);
-        // let test = Array.from(storage)
-        console.log(test);
-        console.log("This adds a second one");
-        storage.push(result);
         console.log(storage);
+        let test = JSON.parse(storage);
+        test.push(result);
+        localStorage.setItem("recentSearches", JSON.stringify(test));
     }
-    
-        // localStorage.getItem('recentSearches');
-        // parse as json.
-        // add an element to the array.
-        // stringify
-        // add back to local storage
-        // localStorage.setItem("")
-
 }
 
 async function changeGif(searchTerm, movieID) {
-    console.log("The Change Gif IS REached");
     try {
         let key = "GfikMeEJM8FxK5c55WN20VdX1OiG564a";
         let limitNumber = 1;
@@ -90,14 +78,14 @@ async function changeGif(searchTerm, movieID) {
         img.src = image;
         caption.textContent = searchTerm;
         let div = document.createElement("div");
-        const result = {
-            "movieid":movieID,
-            "movieName":searchTerm,
-            "gif":image
-        }
-        // console.log(result);
+        
+        // Create an Object
+        let store = new Object();
+        store.movieid = movieID;
+        store.name = searchTerm;
+        store.gif = image;
         if(movieID != 0) {
-            await updateRecents(result);
+            await updateRecents(store);
         }
 
         div.appendChild(img);
@@ -107,6 +95,11 @@ async function changeGif(searchTerm, movieID) {
         console.log(error);
         console.log("There was an error");
     }
+}
+
+// Don't bother until we can get recent's and favorites working
+function getMoviefromID(id) {
+
 }
 
 async function getMovieData(searchTerm) {
