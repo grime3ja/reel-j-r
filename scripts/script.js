@@ -54,7 +54,9 @@ async function updateRecents(item) {
         localStorage.setItem("recentSearches", recents);
     }
     else {
-        // JSON.parse()
+        // console.log(storage);
+        // let test = Array.from(storage)
+        console.log(test);
         console.log("This adds a second one");
         storage.push(result);
         console.log(storage);
@@ -70,6 +72,7 @@ async function updateRecents(item) {
 }
 
 async function changeGif(searchTerm, movieID) {
+    console.log("The Change Gif IS REached");
     try {
         let key = "GfikMeEJM8FxK5c55WN20VdX1OiG564a";
         let limitNumber = 1;
@@ -101,7 +104,8 @@ async function changeGif(searchTerm, movieID) {
         div.appendChild(caption);
         output.appendChild(div);
     } catch (error) {
-        
+        console.log(error);
+        console.log("There was an error");
     }
 }
 
