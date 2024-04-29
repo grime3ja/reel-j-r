@@ -179,32 +179,37 @@ async function getMovieData(searchTerm) {
     }
 }
 
-window.onload = ("load", async() => {
+async function loadPage() {
     const currentURLSearch = window.location.search;
-    let btn = document.getElementById("btn");
-    if (currentURLSearch.length > 0) {
-        const decoded = new URLSearchParams(currentURLSearch);
-        if (decoded.has("search")) {
-            const items = decoded.getAll("search");
-            sessionStorage.setItem("q", JSON.stringify(items));
-            const q = sessionStorage.getItem("q");
-            const urlSPObj = new URLSearchParams();
-            urlSPObj.append("search", q);
-            getMovieData(q);
-            btn.style.visibility = "visible";
-            btn.addEventListener("click", () => {
-                console.log("favorite clicked");
-            });
+    if (window.location.toString().includes("index.html")) {
+        let btn = document.getElementById("btn");
+        if (currentURLSearch.length > 0) {
+            const decoded = new URLSearchParams(currentURLSearch);
+            if (decoded.has("search")) {
+                const items = decoded.getAll("search");
+                sessionStorage.setItem("q", JSON.stringify(items));
+                const q = sessionStorage.getItem("q");
+                const urlSPObj = new URLSearchParams();
+                urlSPObj.append("search", q);
+                getMovieData(q);
+                btn.style.visibility = "visible";
+                btn.addEventListener("click", () => {
+                    console.log("favorite clicked");
+                });
+            }
         }
-    }
-    else {
-        try {
-            btn.style.visibility = "hidden";
-        } catch (error) {
+        else {
+            try {
+                btn.style.visibility = "hidden";
+            } catch (error) {
 
+            }
+            await changeGif("Movie", 0);
         }
-        await changeGif("Movie", 0);
     }
+}
+
+async function loadFooter() {
     let output = document.querySelector(".footer");
     const url = 'https://ron-swanson-quotes.herokuapp.com/v2/quotes';
     const options = {
@@ -217,6 +222,33 @@ window.onload = ("load", async() => {
     } catch (error) {
         console.error(error);
     }
+}
+
+function makeBlob() {
+    if (window.location.toString().includes("user-favorites.html")) {
+        console.log("on favorites page");
+        document.getElementById("export").addEventListener("click", () => {
+            console.log("share button pressed");
+            let storage = localStorage.getItem("favorites");
+            let lsJson = JSON.stringify(JSON.parse(storage));
+            let blob = new Blob([lsJson], {type: "application/json"});
+            let url = URL.createObjectURL(blob);
+            let downloadLink = document.createElement("a");
+            downloadLink.href = url;
+            downloadLink.download = "favorites.json";
+            downloadLink.click();
+        });
+    }
+}
+
+window.onload = ("load", async() => {
+    loadPage();
+    loadFooter();
+    makeBlob();
+    // sessionStorage.setItem("q", searchText.value);
+});
+
+document.addEventListener("DOMContentLoaded", (event) => {
     switch(sessionStorage.getItem("background")) {
         case "dark":
             dark();
@@ -227,5 +259,4 @@ window.onload = ("load", async() => {
         default:
             OS();
     }
-    // sessionStorage.setItem("q", searchText.value);
 });
