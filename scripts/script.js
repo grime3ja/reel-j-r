@@ -198,8 +198,12 @@ window.onload = ("load", async() => {
         }
     }
     else {
+        try {
+            btn.style.visibility = "hidden";
+        } catch (error) {
+
+        }
         await changeGif("Movie", 0);
-        btn.style.visibility = "hidden";
     }
     let output = document.querySelector(".footer");
     const url = 'https://ron-swanson-quotes.herokuapp.com/v2/quotes';
