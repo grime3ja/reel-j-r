@@ -123,7 +123,7 @@ async function getMovieData(searchTerm) {
         let id = movie.id;
         // gif is changed based off of the move title, thus interaction b/w TMDB and Gif API
         changeGif(movie.title, id);
-        location.search = "?search=" + movie.title + "#";
+        location.search = "?search=" + movie.title;
         
         let whereURL = "https://api.themoviedb.org/3/movie/" + id + "/watch/providers";
         response = await fetch(whereURL, options);
@@ -243,11 +243,10 @@ function makeBlob() {
     }
 }
 
-makeBlob();
-
 window.onload = ("load", async() => {
     loadPage();
     loadFooter();
+    makeBlob();
     // sessionStorage.setItem("q", searchText.value);
 });
 
