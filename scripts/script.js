@@ -246,6 +246,7 @@ window.onload = ("load", async() => {
     // sessionStorage.setItem("q", searchText.value);
 });
 
+makeBlob()
 document.addEventListener("DOMContentLoaded", (event) => {
     switch(sessionStorage.getItem("background")) {
         case "dark":
