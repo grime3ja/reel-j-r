@@ -34,7 +34,7 @@ function searchPressed() {
     if (output) {
         output.innerHTML = "";
     } else {
-        location.href = "./index.html?search=" + searchText.value + "#";
+        location.href = "./index.html?search=" + searchText.value;
     }
     sessionStorage.setItem("q", searchText.value);
     const q = sessionStorage.getItem("q");
@@ -123,7 +123,6 @@ async function getMovieData(searchTerm) {
         let id = movie.id;
         // gif is changed based off of the move title, thus interaction b/w TMDB and Gif API
         changeGif(movie.title, id);
-        location.search = "?search=" + movie.title;
         
         let whereURL = "https://api.themoviedb.org/3/movie/" + id + "/watch/providers";
         response = await fetch(whereURL, options);
@@ -177,7 +176,6 @@ async function getMovieData(searchTerm) {
         changeGif(searchTerm, 0);
         document.getElementById("div").textContent = "Movie not found, maybe try refining your search more.";
         document.getElementById("tmdb").textContent = "Or try again and pray it works this time.";
-        location.href = "./index.html?search=" + document.getElementById('search-bar').value;
     }
 }
 
