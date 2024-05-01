@@ -242,6 +242,9 @@ function makeBlob() {
 }
 
 window.onload = ("load", async() => {
+    if (location.toString().endsWith("/")) {
+        location.search = "index.html";
+    }
     loadPage();
     loadFooter();
     makeBlob();
