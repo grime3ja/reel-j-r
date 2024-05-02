@@ -64,7 +64,11 @@
       localStorage.setItem('recentSearches', contents);
       populateFromLocalStorage();
       }
+    }
 
+    function clearList() {
+      console.log('clearList')
+      document.getElementById('items').innerHTML = '';
     }
 
     function addItemToList(item) {
