@@ -51,10 +51,62 @@
       </div>
     </nav>
   </header>
-  <main>
-    <h3>As of this milestone, this page remains blank but will be a potential way to search with more refined terms.
-    </h3>
-    <!-- Take localstorage and have it display as a list -->
+  <script>
+    function importFromFile() {
+      
+    }
+    
+    // Bootstrap component for alert functionality.
+    function appendAlert (message, type) {
+      let alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+      let wrapper = document.createElement('div');
+      wrapper.setAttribute("class","alert alert-"+ type + " alert-dismissible fade show");
+      wrapper.setAttribute("role", "alert");
+      wrapper.textContent = message;
+      let button = document.createElement("button");
+      button.setAttribute("type", "button");
+      button.setAttribute("class", "btn-close");
+      button.setAttribute("data-bs-dismiss", "alert");
+      button.setAttribute("aria-label", "Close");
+      wrapper.appendChild(button);
+      alertPlaceholder.appendChild(wrapper);
+    }
+
+    function confirmClear() {
+      console.log("Clear Confirm pressed.");
+      appendAlert('You Have Deleted Your Recent History', 'success');
+    }
+
+  </script>
+  <main id="main">
+    <div id="liveAlertPlaceholder"></div>
+    <ol id="items"></ol>
+    <div id="downloads"></div>
+    <input type="file" class="btn btn-outline-info" name="import-file" id="import-file">
+    <button id="import" class="btn btn-outline-success" onclick="importFromFile()" type="submit">Import</button>
+    <button type="button" id="clearRecents" class="btn btn-outline-danger" data-bs-toggle="modal"
+      data-bs-target="#bootstrapModal">
+      Clear All Recents
+    </button>
+
+    <div class="modal fade" id="bootstrapModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="ModalLabel">Are You Sure?</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Deleting this will only delete your recent's and not your selected favorites.💣</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" id="confirmClear" onclick="confirmClear()">Yes I'm
+              Sure</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
   <footer class="footer">
     <p>Placeholder for B99 Quote</p>

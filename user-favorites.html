@@ -51,9 +51,24 @@
       </div>
     </nav>
   </header>
+  <script>
+    function makeBlob() {
+    document.getElementById("export").addEventListener("click", () => {
+        console.log("share button pressed");
+        let storage = localStorage.getItem("favorites");
+        let lsJson = JSON.stringify(JSON.parse(storage));
+        let blob = new Blob([lsJson], {type: "application/json"});
+        let url = URL.createObjectURL(blob);
+        let downloadLink = document.createElement("a");
+        downloadLink.href = url;
+        downloadLink.download = "favorites.json";
+        downloadLink.click();
+    });
+}
+  </script>
   <main>
     <!-- <h3>This page will serve the purpose of having user's favorite or hold there most recent searches.</h3> -->
-    <button id="export" type="button">Share</button>
+    <button id="export" type="button" onclick="makeBlob">Share</button>
   </main>
   <footer class="footer">
     <p>Placeholder for B99 Quote</p>

@@ -16,6 +16,12 @@ function dark() {
     var nav = document.getElementById("navbard");
     nav.classList.add("navbar-dark");
     nav.setAttribute("data-bs-theme","dark");
+    
+    // Modal in recent searches
+    var modal = document.getElementById("bootstrapModal");
+    if (modal != null) {
+        modal.setAttribute("data-bs-theme","dark");
+    }
 }
 
 function light() {
@@ -25,6 +31,12 @@ function light() {
     var nav = document.getElementById("navbard");
     nav.classList.remove("navbar-dark");
     nav.removeAttribute("data-bs-theme");
+    
+    // Modal in recent searches
+    var modal = document.getElementById("bootstrapModal");
+    if (modal != null) {
+        modal.removeAttribute("data-bs-theme");
+    }
 }
 
 function searchPressed() {
@@ -224,30 +236,13 @@ async function loadFooter() {
     }
 }
 
-function makeBlob() {
-    if (window.location.toString().includes("user-favorites.html")) {
-        console.log("on favorites page");
-        document.getElementById("export").addEventListener("click", () => {
-            console.log("share button pressed");
-            let storage = localStorage.getItem("favorites");
-            let lsJson = JSON.stringify(JSON.parse(storage));
-            let blob = new Blob([lsJson], {type: "application/json"});
-            let url = URL.createObjectURL(blob);
-            let downloadLink = document.createElement("a");
-            downloadLink.href = url;
-            downloadLink.download = "favorites.json";
-            downloadLink.click();
-        });
-    }
-}
-
 window.onload = ("load", async() => {
     if (location.toString().endsWith("/")) {
         location += "index.html";
     }
     loadPage();
     loadFooter();
-    makeBlob();
+    // makeBlob();
     // sessionStorage.setItem("q", searchText.value);
 });
 
