@@ -52,10 +52,54 @@
     </nav>
   </header>
   <script>
-    function importFromFile() {
-      
+    async function importFromFile() {
+      console.log('import form was submitted')
+      let fileInput = document.getElementById('import-file');
+      let file =  fileInput.files;
+      if (file.length == 0) {
+        alert("There is no file");
+      }
+      else {
+      let contents = await file[0].text();
+      localStorage.setItem('recentSearches', contents);
+      populateFromLocalStorage();
+      }
+
+    }
+
+    function addItemToList(item) {
+      const list = document.getElementById('items')
+      const newLi = document.createElement('li')
+      newLi.textContent = item;
+      list.append(newLi)
     }
     
+    function populateFromLocalStorage() {
+      console.log('populateFromLocalStorage')
+      clearList()
+      //handle loading from localStorage
+      const items = localStorage.getItem('recentSearches');
+      if (items) {
+        JSON.parse(items).forEach(addItemToList)
+      }
+    }
+
+    document.getElementById('clearAll').addEventListener('click', () => {
+      console.log('clearAll clicked');
+      localStorage.removeItem('recentSearches');
+      clearList();
+    })
+
+    function init() {
+      console.log('initialize the page')
+      // populateLocalStorageFromURLSearch() // Added so that the page doesn't need a refresh to work
+      populateFromLocalStorage()
+      document.getElementById('import-form').addEventListener('submit', importFromFile)
+    }
+
+    init();
+
+
     // Bootstrap component for alert functionality.
     function appendAlert (message, type) {
       let alertPlaceholder = document.getElementById('liveAlertPlaceholder');
@@ -74,6 +118,8 @@
 
     function confirmClear() {
       console.log("Clear Confirm pressed.");
+      clearList();
+      localStorage.removeItem("recentSearches");
       appendAlert('You Have Deleted Your Recent History', 'success');
     }
 
@@ -97,7 +143,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p>Deleting this will only delete your recent's and not your selected favorites.💣</p>
+            <h5>Deleting this will only delete your recents and not your selected favorites.💣</h5>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
