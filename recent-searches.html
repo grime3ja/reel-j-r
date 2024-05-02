@@ -88,12 +88,6 @@
       }
     }
 
-    document.getElementById('clearAll').addEventListener('click', () => {
-      console.log('clearAll clicked');
-      localStorage.removeItem('recentSearches');
-      clearList();
-    })
-
     function init() {
       console.log('initialize the page')
       // populateLocalStorageFromURLSearch() // Added so that the page doesn't need a refresh to work
