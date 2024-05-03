@@ -52,6 +52,7 @@
     </nav>
   </header>
   <script>
+
     function makeBlob() {
     document.getElementById("export").addEventListener("click", () => {
         console.log("share button pressed");
@@ -64,6 +65,25 @@
         downloadLink.download = "favorites.json";
         downloadLink.click();
     });
+
+    function populateFavoritesFromStorage() {
+      console.log('populateFromLocalStorage');
+      clearList()
+      //handle loading from localStorage
+      const items = localStorage.getItem('recentSearches');
+      if (items) {
+        JSON.parse(items).forEach(addItemToList)
+      }
+    }
+
+    function addItemToList(item) {
+      const list = document.getElementById('items')
+      const newLi = document.createElement('li')
+      // CREATE THE GALLERY HERE FROM THE STORAGE
+      // Consider using bootstrap components.
+      newLi.textContent = item;
+      list.append(newLi)
+    }
 }
   </script>
   <main>
