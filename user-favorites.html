@@ -51,49 +51,15 @@
       </div>
     </nav>
   </header>
-  <script>
-
-    function makeBlob() {
-    document.getElementById("export").addEventListener("click", () => {
-        console.log("share button pressed");
-        let storage = localStorage.getItem("favorites");
-        let lsJson = JSON.stringify(JSON.parse(storage));
-        let blob = new Blob([lsJson], {type: "application/json"});
-        let url = URL.createObjectURL(blob);
-        let downloadLink = document.createElement("a");
-        downloadLink.href = url;
-        downloadLink.download = "favorites.json";
-        downloadLink.click();
-    });
-
-    function populateFavoritesFromStorage() {
-      console.log('populateFromLocalStorage');
-      clearList()
-      //handle loading from localStorage
-      const items = localStorage.getItem('recentSearches');
-      if (items) {
-        JSON.parse(items).forEach(addItemToList)
-      }
-    }
-
-    function addItemToList(item) {
-      const list = document.getElementById('items')
-      const newLi = document.createElement('li')
-      // CREATE THE GALLERY HERE FROM THE STORAGE
-      // Consider using bootstrap components.
-      newLi.textContent = item;
-      list.append(newLi)
-    }
-}
-  </script>
   <main>
     <!-- <h3>This page will serve the purpose of having user's favorite or hold there most recent searches.</h3> -->
     <button id="export" type="button" onclick="makeBlob">Share</button>
   </main>
   <footer class="footer">
-    <p>Placeholder for B99 Quote</p>
+    <p>Placeholder for Ron Swanson Quote</p>
   </footer>
   <script src="scripts/script.js"></script>
+  <script src="scripts/usrfav.js"></script>
 </body>
 
 </html>

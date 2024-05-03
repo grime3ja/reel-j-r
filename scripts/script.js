@@ -1,3 +1,5 @@
+let currentFetch = null;
+
 // This is where we will include our javascript
 function OS() {
     var element = document.body;
@@ -99,6 +101,7 @@ async function changeGif(searchTerm, movieID) {
         if(movieID != 0) {
             await updateRecents(store);
         }
+        currentFetch = store;
 
         div.appendChild(img);
         div.appendChild(caption);
@@ -153,7 +156,7 @@ async function getMovieData(searchTerm) {
         let actors = (await response.json()).cast;
         
         let article = document.getElementById("article");
-        let div = document.getElementById("div");
+        let div = document.getElementById("details");
         div.innerHTML = "";
         // let title = document.createElement("p");
         // title.textContent = "Title: " + movie.title;
@@ -186,7 +189,7 @@ async function getMovieData(searchTerm) {
         aside.appendChild(div1);
     } catch (error) {
         changeBadGif();
-        document.getElementById("div").textContent = "Movie not found, maybe try refining your search more.";
+        document.getElementById("details").textContent = "Movie not found, maybe try refining your search more.";
         document.getElementById("tmdb").textContent = "Or try again and pray it works this time.";
     }
 }

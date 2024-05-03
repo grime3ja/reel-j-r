@@ -41,13 +41,10 @@
             </li>
           </ul>
           <form class="d-flex" role="search" action="#">
-            <input class="form-control me-2" id="search-bar" name="search" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success"  id="search-button" type="submit" onclick="searchPressed()">Go!</button>
-          <!-- <form class="d-flex" role="search">
             <input class="form-control me-2" id="search-bar" name="search" type="search" placeholder="Search"
               aria-label="Search">
-            <button class="btn btn-outline-success" id="search-button" type="button"
-              onclick="searchPressed()">Go!</button> -->
+            <button class="btn btn-outline-success" id="search-button" type="submit"
+              onclick="searchPressed()">Go!</button>
           </form>
         </div>
       </div>
@@ -59,13 +56,13 @@
         <!-- <figcaption id="figcap">Fetched Image</figcaption> -->
         <!-- this is where a image will be uploaded when it is searched for, it defaults to one when the page is loaded -->
       </figure>
-      <div id="div">
-        <!-- <p>Title:</p> -->
+      <div id="details">
         <p>Description:</p>
         <p>Lead Actor:</p>
         <!-- this is where the searched movie data will be -->
       </div>
-      <button id="btn" type="button" class="btn btn-outline-warning" data-bs-toggle="button" autocomplete="off" aria-pressed="false">⭐Favorite🍿</button>
+      <button id="btn" type="button" class="btn btn-outline-warning" data-bs-toggle="button" autocomplete="off"
+        aria-pressed="false" onclick="addFavorite()">⭐Favorite🍿</button>
     </article>
     <aside class="aside" id="aside">
       <div id="tmdb">
@@ -89,5 +86,20 @@
     <p>Placeholder Of Ron Swanson Quote</p>
   </footer>
 </body>
+<script>
+
+
+  function addFavorite(item) {
+
+  }
+
+  function removeFavorite(item) {
+
+  }
+
+  function setCurrent() {
+
+  }
+</script>
 
 </html>
