@@ -53,7 +53,7 @@
   </header>
   <main id="main">
     <div id="liveAlertPlaceholder"></div>
-    <ol id="ol"></ol>
+    <ol id="recentList"></ol>
     <div id="downloads"></div>
     <input type="file" class="btn btn-outline-info" name="import-file" id="import-file">
     <button id="import" class="btn btn-outline-success" onclick="importFromFile()" type="submit">Import</button>
@@ -74,7 +74,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger" id="confirmClear" onclick="confirmClear()">Yes I'm
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="confirmClear" onclick="confirmClear()">Yes I'm
               Sure</button>
           </div>
         </div>
@@ -82,7 +82,7 @@
     </div>
   </main>
   <footer class="footer">
-    <p>Placeholder for B99 Quote</p>
+    <p>Placeholder for Ron Swanson Quote</p>
   </footer>
   <script src="scripts/script.js"></script>
   <script>
@@ -102,15 +102,21 @@
 
     function clearList() {
       console.log('clearList')
-      let temp = document.getElementById('ol');
+      let temp = document.getElementById('recentList');
       temp.innerHTML = '';
     }
 
     function addItemToList(item) {
-      const list = document.getElementById('ol')
-      const newLi = document.createElement('li')
-      newLi.textContent = item;
-      list.append(newLi)
+      item = JSON.parse(item);
+      console.log(item);
+      let list = document.getElementById('recentList')
+      let newLi = document.createElement('li')
+      let itemLink = document.createElement('a');
+      itemLink.href = "./index.html?search=" + item.name;
+      itemLink.textContent = item.name;
+
+      newLi.append(itemLink);
+      list.appendChild(newLi);
     }
     
     function populateFromLocalStorage() {
@@ -127,7 +133,7 @@
       console.log('initialize the page')
       // populateLocalStorageFromURLSearch() // Added so that the page doesn't need a refresh to work
       populateFromLocalStorage()
-      document.getElementById('import-form').addEventListener('submit', importFromFile)
+      // document.getElementById('import-form').addEventListener('submit', importFromFile)
     }
 
     init();

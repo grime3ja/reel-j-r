@@ -185,10 +185,19 @@ async function getMovieData(searchTerm) {
 
         aside.appendChild(div1);
     } catch (error) {
-        changeGif(searchTerm, 0);
+        changeBadGif();
         document.getElementById("div").textContent = "Movie not found, maybe try refining your search more.";
         document.getElementById("tmdb").textContent = "Or try again and pray it works this time.";
     }
+}
+
+const listOfBad = ['crying.gif', '404.gif', 'sadDog.gif', 'helpCom.gif', 'despair.gif', 'kev.gif'];
+
+function changeBadGif() {
+    let output = document.getElementById("figure");
+    let img = document.createElement("img");
+    img.src = "./images/" + listOfBad[Math.floor(Math.random() * listOfBad.length)];
+    output.append(img);
 }
 
 async function loadPage() {
