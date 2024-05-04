@@ -1,3 +1,5 @@
+let badData = false;
+
 async function importFromFile() {
     console.log('import form was submitted')
     let fileInput = document.getElementById('import-file');
@@ -19,15 +21,21 @@ function clearList() {
 }
 
 async function addItemToList(item) {
-    item = await JSON.parse(item);
-    console.log(item);
-        
     let list = document.getElementById('recentList')
     let newLi = document.createElement('li')
-    let itemLink = document.createElement('a');
-    itemLink.href = "./index.html?search=" + item.name;
-    itemLink.textContent = item.name;
-    newLi.append(itemLink);
+    try {
+        item = await JSON.parse(item);
+
+        let itemLink = document.createElement('a');
+        itemLink.href = "./index.html?search=" + item.name;
+        itemLink.textContent = item.name;
+        newLi.append(itemLink);
+    } catch (error) {
+        // console.log(error);
+        appendAlert('this item cannot be created', 'danger');
+        badData = true;
+        return false;
+    }
     list.appendChild(newLi);
     return true;
 }
@@ -39,6 +47,11 @@ function populateFromLocalStorage() {
     const items = localStorage.getItem('recentSearches');
     if (items) {
         JSON.parse(items).forEach(addItemToList);
+    }
+    if (badData) {
+        clearList();
+        localStorage.removeItem('recentSearches');
+        badData = false;
     }
 }
 
