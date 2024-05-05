@@ -188,6 +188,8 @@ async function getMovieData(searchTerm) {
         div1.appendChild(p2);
 
         aside.appendChild(div1);
+
+        return movie.title;
     } catch (error) {
         changeBadGif();
         document.getElementById("details").textContent = "Movie not found, maybe try refining your search more.";
@@ -216,11 +218,25 @@ async function loadPage() {
                 const q = sessionStorage.getItem("q");
                 const urlSPObj = new URLSearchParams();
                 urlSPObj.append("search", q);
-                getMovieData(q);
+                let movie = await getMovieData(q);
                 btn.style.visibility = "visible";
-                // btn.addEventListener("click", () => {
-                //     console.log("favorite clicked");
-                // });
+                let recents = JSON.parse(localStorage.getItem("recentSearches"));
+                let favorites = JSON.parse(localStorage.getItem("favorites"));
+                let favoritesList = [];
+                for (let i = 0; i < favorites.length; i++) {
+                    favoritesList.push(JSON.parse(favorites[i]).name);
+                }
+                console.log(favoritesList);
+
+                for (let i = 0; i < favoritesList.length; i++) {
+                    console.log(favoritesList[i]);
+                    if (movie === favoritesList[i]) {
+                        console.log(true);
+                        btn.setAttribute("aria-pressed", "true");
+                        btn.classList.add("active");
+                        break;
+                    }
+                }
             }
         }
         else {
