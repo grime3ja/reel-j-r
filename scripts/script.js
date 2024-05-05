@@ -175,6 +175,7 @@ async function getMovieData(searchTerm) {
         let div1 = document.getElementById("tmdb");
         div1.innerHTML = "";
         let p1 = document.createElement("strong");
+        p1.id = 'service';
         p1.textContent = "Where to watch: " + where;
         let p2 = document.createElement("p");
         p2.innerHTML = "<strong>Notable Actors: </strong>";
@@ -206,7 +207,7 @@ function changeBadGif() {
 async function loadPage() {
     const currentURLSearch = window.location.search;
     if (window.location.toString().includes("index.html")) {
-        let btn = document.getElementById("btn");
+        let btn = document.getElementById("favoriteBtn");
         if (currentURLSearch.length > 0) {
             const decoded = new URLSearchParams(currentURLSearch);
             if (decoded.has("search")) {
@@ -217,9 +218,9 @@ async function loadPage() {
                 urlSPObj.append("search", q);
                 getMovieData(q);
                 btn.style.visibility = "visible";
-                btn.addEventListener("click", () => {
-                    console.log("favorite clicked");
-                });
+                // btn.addEventListener("click", () => {
+                //     console.log("favorite clicked");
+                // });
             }
         }
         else {

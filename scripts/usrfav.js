@@ -1,4 +1,4 @@
-let storage = JSON.parse(localStorage.getItem('recentSearches'));
+let storage = JSON.parse(localStorage.getItem('favorites'));
 
 function makeBlob() {
     document.getElementById("export").addEventListener("click", () => {
@@ -33,7 +33,7 @@ function populateFavoritesFromStorage() {
     console.log('populateFromLocalStorage');
     clearList()
     //handle loading from localStorage
-    const items = localStorage.getItem('recentSearches');
+    const items = localStorage.getItem('favorites');
     if (items) {
         JSON.parse(items).forEach(addItemToList)
     }
@@ -64,7 +64,7 @@ function addItemToList(item) {
     title.textContent = item.name;
     let service = document.createElement('p');
     service.classList.add('card-text');
-    service.textContent = 'Watch on ' + 'Disney';
+    service.textContent = 'Watch on ' + item.service;
     let searchAgainBtn = document.createElement('a');
     searchAgainBtn.classList.add('btn', 'btn-primary');
     searchAgainBtn.textContent = 'Search Again';
@@ -78,9 +78,9 @@ function addItemToList(item) {
         console.log(storage.indexOf(JSON.stringify(item)));
         storage.splice(storage.indexOf(JSON.stringify(item)), 1);
         if (storage.length == 0) {
-            localStorage.removeItem('recentSearches');
+            localStorage.removeItem('favorites');
         } else {
-            localStorage.setItem('recentSearches', JSON.stringify(storage));
+            localStorage.setItem('favorites', JSON.stringify(storage));
         }
         location.reload();
     });
@@ -98,7 +98,7 @@ function populateFromLocalStorage() {
     console.log('populateFromLocalStorage')
     clearList()
     //handle loading from localStorage
-    const items = localStorage.getItem('recentSearches');
+    const items = localStorage.getItem('favorites');
     if (items) {
         JSON.parse(items).forEach(addItemToList)
     }
