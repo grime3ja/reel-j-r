@@ -10,7 +10,7 @@ async function importFromFile() {
     else {
         let contents = await file[0].text();
         localStorage.setItem('recentSearches', contents);
-        populateFromLocalStorage();
+        populateFromLocalStorage() ? appendAlert('✅ Import Success', 'success'): appendAlert('⚠️Import Failure', 'warning');
     }
 }
 
@@ -52,7 +52,9 @@ function populateFromLocalStorage() {
         clearList();
         localStorage.removeItem('recentSearches');
         badData = false;
+        return false;
     }
+    return true;
 }
 
 function init() {

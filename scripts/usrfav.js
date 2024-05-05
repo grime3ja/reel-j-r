@@ -4,8 +4,7 @@ function makeBlob() {
     document.getElementById("export").addEventListener("click", () => {
         console.log("share button pressed");
         let storage = localStorage.getItem("favorites");
-        let lsJson = JSON.stringify(JSON.parse(storage));
-        let blob = new Blob([lsJson], { type: "application/json" });
+        let blob = new Blob([storage], { type: "application/json" });
         let url = URL.createObjectURL(blob);
         let downloadLink = document.createElement("a");
         downloadLink.href = url;
