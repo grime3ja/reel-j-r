@@ -91,6 +91,7 @@ async function changeGif(searchTerm, movieID) {
         let caption = document.createElement("figcaption");
         img.src = image;
         caption.textContent = searchTerm;
+        caption.id = "fg";
         let div = document.createElement("div");
         
         // Create an Object
@@ -226,12 +227,9 @@ async function loadPage() {
                 for (let i = 0; i < favorites.length; i++) {
                     favoritesList.push(JSON.parse(favorites[i]).name);
                 }
-                console.log(favoritesList);
 
                 for (let i = 0; i < favoritesList.length; i++) {
-                    console.log(favoritesList[i]);
                     if (movie === favoritesList[i]) {
-                        console.log(true);
                         btn.setAttribute("aria-pressed", "true");
                         btn.classList.add("active");
                         break;

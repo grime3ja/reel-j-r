@@ -128,8 +128,13 @@
     if (storage == null) {
       return;
     }
+    let movie = document.getElementById("fg").textContent;
     storage = await JSON.parse(storage);
-    storage.pop();
+    for (let i = 0; i < storage.length; i++) {
+      if (JSON.parse(storage[i]).name === movie) {
+        storage.splice(i, 1);
+      }
+    }
     localStorage.setItem('favorites', JSON.stringify(storage));
   }
 
