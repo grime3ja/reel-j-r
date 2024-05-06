@@ -144,12 +144,16 @@ async function getMovieData(searchTerm) {
         response = await fetch(whereURL, options);
         let temp = (await response.json()).results["US"];
         let where;
-        if (temp.flatrate) {
-            where = temp.flatrate[0].provider_name;
-        } else if (temp.rent) {
-            where = temp.rent[0].provider_name;
-        } else if (temp.buy) {
-            where = temp.buy[0].provider_name;
+        try {
+            if (temp.flatrate) {
+                where = temp.flatrate[0].provider_name;
+            } else if (temp.rent) {
+                where = temp.rent[0].provider_name;
+            } else if (temp.buy) {
+                where = temp.buy[0].provider_name;
+            }
+        } catch(error) {
+            where = "No streaming options available";
         }
 
         let actorURL = "https://api.themoviedb.org/3/movie/"+ id +"/credits";
@@ -180,10 +184,17 @@ async function getMovieData(searchTerm) {
         p1.textContent = "Where to watch: " + where;
         let p2 = document.createElement("p");
         p2.innerHTML = "<strong>Notable Actors: </strong>";
-        for (let i = 0; i < 4; i++) {
-            p2.textContent += actors[i].name + ", ";
+        if (actors.length <= 5) {
+            for (let i = 0; i < actors.length; i++) {
+                p2.textContent += actors[i].name + ", ";
+            }
         }
-        p2.textContent += actors[5].name;
+        else {
+            for (let i = 0; i < 4; i++) {
+                p2.textContent += actors[i].name + ", ";
+            }
+            p2.textContent += actors[5].name;
+        }
 
         div1.appendChild(p1);
         div1.appendChild(p2);
@@ -221,19 +232,22 @@ async function loadPage() {
                 urlSPObj.append("search", q);
                 let movie = await getMovieData(q);
                 btn.style.visibility = "visible";
-                let recents = JSON.parse(localStorage.getItem("recentSearches"));
-                let favorites = JSON.parse(localStorage.getItem("favorites"));
-                let favoritesList = [];
-                for (let i = 0; i < favorites.length; i++) {
-                    favoritesList.push(JSON.parse(favorites[i]).name);
-                }
-
-                for (let i = 0; i < favoritesList.length; i++) {
-                    if (movie === favoritesList[i]) {
-                        btn.setAttribute("aria-pressed", "true");
-                        btn.classList.add("active");
-                        break;
+                try {
+                    let favorites = JSON.parse(localStorage.getItem("favorites"));
+                    let favoritesList = [];
+                    for (let i = 0; i < favorites.length; i++) {
+                        favoritesList.push(JSON.parse(favorites[i]).name);
                     }
+
+                    for (let i = 0; i < favoritesList.length; i++) {
+                        if (movie === favoritesList[i]) {
+                            btn.setAttribute("aria-pressed", "true");
+                            btn.classList.add("active");
+                            break;
+                        }
+                    }
+                } catch(error) {
+
                 }
             }
         }
