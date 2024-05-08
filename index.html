@@ -57,7 +57,7 @@
         <p>Lead Actor:</p>
         <!-- this is where the searched movie data will be -->
       </div>
-      <button id="favoriteBtn" type="button" class="btn btn-outline-warning" data-bs-toggle="button" autocomplete="off"
+      <button id="favoriteBtn" type="button" class="btn btn-outline-warning" data-bs-toggle="button"
         aria-pressed="false" onclick="toggleFavorite()">⭐Favorite🍿</button>
     </article>
     <aside class="aside" id="aside">
@@ -81,48 +81,48 @@
   <footer class="footer">
     <p>Placeholder Of Ron Swanson Quote</p>
   </footer>
-</body>
+  
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="scripts/script.js"></script>
 <script>
-  // let favorite = document.getElementById('favoriteBtn').addEventListener('click', toggleFavorite());
-  async function toggleFavorite() {
-    let favorite = await document.getElementById('favoriteBtn');
-    // console.log('This is ' + favorite.getAttribute('aria-pressed'));
-    if (favorite.getAttribute('aria-pressed') == 'true') {
-      addToFavorite();
-    } else {
-      removeFromFavorite();
-    }
+// let favorite = document.getElementById('favoriteBtn').addEventListener('click', toggleFavorite());
+async function toggleFavorite() {
+  let favorite = await document.getElementById('favoriteBtn');
+  // console.log('This is ' + favorite.getAttribute('aria-pressed'));
+  if (favorite.getAttribute('aria-pressed') == 'true') {
+    addToFavorite();
+  } else {
+    removeFromFavorite();
+  }
+}
+
+async function addToFavorite() {
+  console.log('adding item to fav');
+
+  let service = document.getElementById('service').textContent.substring(16);
+
+  let store = localStorage.getItem('recentSearches');
+  store = JSON.parse(store);
+  let item = await JSON.parse(store.pop());
+  item.service = service;
+  item = await JSON.stringify(item);
+
+  let favoriteStorage = localStorage.getItem("favorites");
+  if (favoriteStorage == null) {
+    var favorites = [];
+    favorites.push(item)
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  } else {
+    let favorites = JSON.parse(favoriteStorage);
+    favorites.push(item);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
   }
 
-  async function addToFavorite() {
-    console.log('adding item to fav');
+}
 
-    let service = document.getElementById('service').textContent.substring(16);
-
-    let store = localStorage.getItem('recentSearches');
-    store = JSON.parse(store);
-    let item = await JSON.parse(store.pop());
-    item.service = service;
-    item = await JSON.stringify(item);
-
-    let favoriteStorage = localStorage.getItem("favorites");
-    if (favoriteStorage == null) {
-      var favorites = [];
-      favorites.push(item)
-      localStorage.setItem('favorites', JSON.stringify(favorites));
-    } else {
-      let favorites = JSON.parse(favoriteStorage);
-      favorites.push(item);
-      localStorage.setItem('favorites', JSON.stringify(favorites));
-    }
-
-  }
-
-  async function removeFromFavorite() {
-    console.log('removing item from fav')
+async function removeFromFavorite() {
+  console.log('removing item from fav')
 
     let storage = localStorage.getItem('favorites');
     if (storage == null) {
@@ -139,5 +139,6 @@
   }
 
 </script>
+</body>
 
 </html>
